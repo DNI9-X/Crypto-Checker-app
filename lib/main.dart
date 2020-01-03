@@ -3,9 +3,8 @@ import 'homepage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as JSON;
 
-void main() async {
+Future<List> main() async {
   List cryptoData = await getCurrencyData();
-  print(cryptoData);
   runApp(MyApp(cryptoData));
 }
 
@@ -21,13 +20,13 @@ class MyApp extends StatelessWidget {
         // home: HomePage(_cryptoData),
         home: Scaffold(
           appBar: AppBar(
-            title: Text("Crypto Checker"),
+            title: Text("Cryptocurrency Checker"),
             centerTitle: true,
             elevation: 10,
           ),
           body: RefreshIndicator(
             child: HomePage(_cryptoData),
-            onRefresh: getCurrencyData,
+            onRefresh: main,
           ),
         ));
   }

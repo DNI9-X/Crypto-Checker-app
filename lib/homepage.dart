@@ -54,7 +54,10 @@ class _HomePageState extends State<HomePage> {
             _getSubTitle(currency['price_usd'], currency['percent_change_1h']),
         contentPadding: EdgeInsets.symmetric(horizontal: 15),
         isThreeLine: true,
-        trailing: Icon(Icons.favorite_border),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[Icon(Icons.favorite_border)],
+        ),
         onLongPress: () {},
       ),
     );
@@ -63,15 +66,16 @@ class _HomePageState extends State<HomePage> {
   Widget _getSubTitle(String priceUsd, String percentageChange) {
     TextSpan priceTextWidget =
         TextSpan(text: "\$$priceUsd\n", style: TextStyle(color: Colors.black));
-    String percentageChangetext = "1 hour: $percentageChange";
     TextSpan percentageChangeWidget;
 
     if (double.parse(percentageChange) > 0) {
       percentageChangeWidget = TextSpan(
-          text: percentageChangetext, style: TextStyle(color: Colors.green));
+          text: "Increased $percentageChange%",
+          style: TextStyle(color: Colors.green));
     } else {
       percentageChangeWidget = TextSpan(
-          text: percentageChangetext, style: TextStyle(color: Colors.red));
+          text: "Decreased $percentageChange%",
+          style: TextStyle(color: Colors.red));
     }
     return RichText(
       text: TextSpan(children: [priceTextWidget, percentageChangeWidget]),

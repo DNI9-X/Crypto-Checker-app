@@ -21,17 +21,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Crypto Checker"),
-        centerTitle: true,
-        elevation: 10,
-      ),
-      body: cryptHome(),
-    );
-  }
-
-  Widget cryptHome() {
     return Container(
         child: Column(
       children: <Widget>[

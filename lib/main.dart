@@ -15,14 +15,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Crypto App",
-      theme: ThemeData(primarySwatch: Colors.cyan),
-      debugShowCheckedModeBanner: false,
-      home: RefreshIndicator(
-        child: HomePage(_cryptoData),
-        onRefresh: getCurrencyData,
-      ),
-    );
+        title: "Crypto App",
+        theme: ThemeData(primarySwatch: Colors.cyan),
+        debugShowCheckedModeBanner: false,
+        // home: HomePage(_cryptoData),
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("Crypto Checker"),
+            centerTitle: true,
+            elevation: 10,
+          ),
+          body: RefreshIndicator(
+            child: HomePage(_cryptoData),
+            onRefresh: getCurrencyData,
+          ),
+        ));
   }
 }
 

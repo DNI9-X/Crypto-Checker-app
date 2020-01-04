@@ -23,6 +23,12 @@ class MyApp extends StatelessWidget {
             title: Text("Cryptocurrency Checker"),
             centerTitle: true,
             elevation: 10,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.list),
+                onPressed: (){},
+              )
+            ],
           ),
           body: RefreshIndicator(
             child: HomePage(_cryptoData),

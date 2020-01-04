@@ -9,7 +9,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //
-  // List cryptoData;
+  final Set<String> _saved = Set<String>();
   final List<MaterialColor> _colors = [
     Colors.lime,
     Colors.deepPurple,
@@ -29,8 +29,9 @@ class _HomePageState extends State<HomePage> {
             itemCount: widget.cryptoData.length,
             itemBuilder: (BuildContext context, int index) {
               final Map currency = widget.cryptoData[index];
+              final String coinName = widget.cryptoData[index]['name'];
               final MaterialColor color = _colors[index % _colors.length];
-              return _getListItemUi(currency, color);
+              return _getListItemUi(currency, color, coinName);
             },
           ),
         ),
@@ -38,7 +39,8 @@ class _HomePageState extends State<HomePage> {
     ));
   }
 
-  Card _getListItemUi(Map currency, MaterialColor color) {
+  Card _getListItemUi(Map currency, MaterialColor color, String nameCoin) {
+    final bool alreadySaved = _saved.contains(nameCoin);
     return Card(
       child: ListTile(
         leading: CircleAvatar(
@@ -56,9 +58,38 @@ class _HomePageState extends State<HomePage> {
         isThreeLine: true,
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Icon(Icons.favorite_border)],
+          children: <Widget>[
+            Icon(
+              alreadySaved ? Icons.favorite : Icons.favorite_border,
+              color: alreadySaved ? Colors.lightBlue : null,
+            ),
+          ],
         ),
-        onLongPress: () {},
+        onTap: () {
+          // final snackBar = SnackBar(
+          //   content: Text("Added to Fav"),
+          //   action: SnackBarAction(
+          //     label: "Undo",
+          //     onPressed: () {},
+          //   ),
+          // );
+          SnackBar snackBar;
+          setState(() {
+            if (alreadySaved) {
+              _saved.remove(nameCoin);
+              snackBar = SnackBar(
+                content: Text("Removed $nameCoin from favourites"),
+              );
+              Scaffold.of(context).showSnackBar(snackBar);
+            } else {
+              _saved.add(nameCoin);
+              snackBar = SnackBar(
+                content: Text("Added $nameCoin to favourites"),
+              );
+              Scaffold.of(context).showSnackBar(snackBar);
+            }
+          });
+        },
       ),
     );
   }
@@ -70,11 +101,11 @@ class _HomePageState extends State<HomePage> {
 
     if (double.parse(percentageChange) > 0) {
       percentageChangeWidget = TextSpan(
-          text: "Increased $percentageChange%",
+          text: "Increased $percentageChange% in 1h",
           style: TextStyle(color: Colors.green));
     } else {
       percentageChangeWidget = TextSpan(
-          text: "Decreased $percentageChange%",
+          text: "Decreased $percentageChange% in 1h",
           style: TextStyle(color: Colors.red));
     }
     return RichText(
